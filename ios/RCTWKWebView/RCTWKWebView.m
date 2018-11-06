@@ -280,6 +280,10 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
   [_webView evaluateJavaScript:source completionHandler:nil];
 }
 
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    return NO;
+}
 
 - (void)goBack
 {
