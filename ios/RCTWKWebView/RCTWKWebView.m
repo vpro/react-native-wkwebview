@@ -69,12 +69,13 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     WKUserContentController* userController = [[WKUserContentController alloc]init];
     [userController addScriptMessageHandler:[[WeakScriptMessageDelegate alloc] initWithDelegate:self] name:@"reactNative"];
     config.userContentController = userController;
+    config.selectionGranularity = WKSelectionGranularityDynamic;
     
     _webView = [[WKWebView alloc] initWithFrame:self.bounds configuration:config];
     _webView.UIDelegate = self;
     _webView.navigationDelegate = self;
     _webView.scrollView.delegate = self;
-    
+
 #if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000 /* __IPHONE_11_0 */
     // `contentInsetAdjustmentBehavior` is only available since iOS 11.
     // We set the default behavior to "never" so that iOS
@@ -89,6 +90,12 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     [self addSubview:_webView];
   }
   return self;
+}
+
+- (void)setHideContextMenu:(BOOL)hideContextMenu {
+  if (hideContextMenu) {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidShow) name:UIMenuControllerDidShowMenuNotification object:nil];
+  }
 }
 
 - (void)setInjectJavaScript:(NSString *)injectJavaScript {
@@ -280,11 +287,6 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
   [_webView evaluateJavaScript:source completionHandler:nil];
 }
 
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
-{
-    return NO;
-}
-
 - (void)goBack
 {
   [_webView goBack];
@@ -298,6 +300,10 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 - (BOOL)canGoForward
 {
   return [_webView canGoForward];
+}
+
+-(void)menuDidShow {
+  [UIMenuController.sharedMenuController setMenuVisible:NO animated:NO];
 }
 
 - (void)reload

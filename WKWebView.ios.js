@@ -204,6 +204,11 @@ class WKWebView extends React.Component {
     startInLoadingState: PropTypes.bool,
     style: ViewPropTypes.style,
     /**
+     * If true context menu will be hidden for text selection
+     * @platform ios
+     */
+    hideContextMenu: PropTypes.bool,
+    /**
      * If false injectJavaScript will run both main frame and iframe
      * @platform ios
      */
@@ -335,6 +340,7 @@ class WKWebView extends React.Component {
         style={webViewStyles}
         contentInsetAdjustmentBehavior={this.props.contentInsetAdjustmentBehavior}
         source={resolveAssetSource(source)}
+        hideContextMenu={this.props.hideContextMenu}
         injectJavaScriptForMainFrameOnly={this.props.injectJavaScriptForMainFrameOnly}
         injectedJavaScriptForMainFrameOnly={this.props.injectedJavaScriptForMainFrameOnly}
         injectJavaScript={this.props.injectJavaScript}

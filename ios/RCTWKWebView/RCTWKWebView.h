@@ -32,6 +32,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 @property (nonatomic, assign) BOOL messagingEnabled;
 @property (nonatomic, assign) BOOL allowsLinkPreview;
 @property (nonatomic, assign) BOOL openNewWindowInWebView;
+@property (nonatomic, assign) BOOL hideContextMenu;
 @property (nonatomic, assign) BOOL injectJavaScriptForMainFrameOnly;
 @property (nonatomic, assign) BOOL injectedJavaScriptForMainFrameOnly;
 @property (nonatomic, copy) NSString *injectJavaScript;
@@ -44,7 +45,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 - (void)goBack;
 - (BOOL)canGoBack;
 - (BOOL)canGoForward;
-- (BOOL)canPerformAction;
+- (void)menuDidShow;
 - (void)reload;
 - (void)stopLoading;
 - (void)postMessage:(NSString *)message;
