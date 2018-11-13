@@ -43,6 +43,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 
 - (void)goForward;
 - (void)goBack;
+- (BOOL)canBecomeFirstResponder;
 - (BOOL)canGoBack;
 - (BOOL)canGoForward;
 - (void)menuDidShow;
